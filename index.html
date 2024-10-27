@@ -3,351 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="static/normalize.css">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Bangers|BenchNine|Sigmar+One&display=swap" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Bangers|BenchNine|Sigmar+One|Abril+Fatface|Alfa+Slab+One|Anton|Baloo+2|Baloo+Chettan+2|Bellota+Text|Fredoka+One|Lato|Lobster|Merriweather|Montserrat|Pacifico|Poppins|Raleway|Righteous|Roboto+Mono|Roboto+Slab|Special+Elite|Ubuntu|Ultra&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="app.css">
-    <script defer src="modules/helperFunction.js" type="text/javascript"></script>
-    <script defer src="modules/fileUpload.js" type="text/javascript"></script>
-    <script defer src="modules/textStyle.js" type="text/javascript"></script>
-    <script defer src="app.js" type="text/javascript"></script>
-    <script defer src="modules/animations.js" type="text/javascript"></script>
-    <title>Make The MeMes</title>
+    <title>Make the Memes ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --primary-light: #FFE3E3;
+            --secondary: #4ECDC4;
+            --accent: #FFD93D;
+            --background: #F8F9FA;
+            --surface: #FFFFFF;
+            --text: #2D3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            background: var(--primary-light);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .upload-zone {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 3px dashed var(--primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover {
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+
+        .text-input {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--primary-light);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .canvas-container {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 968px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #imageInput {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    
-    <div id="header-wrapper" class="flex-std-col">
-        <header class="flex-std-col hidden">
-            <h1>Make The MeMes</h1>
-            <div class="flex-std btn-box">
-                <button>Make memes</button>
-            </div>
+    <div class="container">
+        <header>
+            <h1>Make The Memes 😆</h1>
+            <p class="subtitle">Transform your images into memes!</p>
         </header>
-    </div>
-        
-    
 
-    <main class="display-none">
-        <section id="upload-zone">
-            <form id="upload-form" action="" enctype="multipart/form-data"  class="width-100 flex-std">
-                <input type="hidden" name="MAX_FILE_SIZE" value="4194304" />
-                <div class="inline-block">
-                    <label for="image-upload">File Upload
-                        <input type="file" id="image-upload-local" name="image-upload"
-                        multiple="false" accept="image/*">
-                    </label>
-                </div>
-                <div class="inline-block">
-                    <label for="image-upload-web">Web Link
-                        <input type="url" id="image-upload-web" name="image-upload-web">
-                    </label>      
-                </div>
-                <div class="inline-block">
-                    <button type="submit">Upload/Reset</button>
-                </div> 
-            </form>
-        </section>
-
-        <section id="edit-zone">
-
-            <form action="" id="edit-form">
-
-                <div id="zoom-img" class="flex-std-col edit-detail-1">
-                    <div class="width-100" id="zoom-wrapper">
-                        <p id="zoom-label">Zoom</p>
-                        <div id="zoom-form" class="flex-std width-100">                    
-                            <img id="zoom-in" class="mr-3 cursor-p" src="static/zoom-in.png" width="30px" height="30px"></img>
-                            <img id="zoom-out" class="mr-3 cursor-p" src="static/zoom-out.png" width="30px" height="30px"></img>
-                        </div>
-                    </div>
+        <main>
+            <div class="controls">
+                <div class="upload-zone" onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)">
+                    <p>Click to upload image</p>
+                    <small>or drag and drop</small>
                 </div>
 
-                <div id="overlay-text" class="flex-std-col edit-detail-1">
-                    <div class="width-100">
-                        <p>Text Area 1</p>
-                        <div class="flex-std width-100">                  
-                            <fieldset id="text-form-1">
-                                    <textarea id="overlay-text-1" name="overlay-text-1"
-                                    placeholder="This meme...">This Meme...</textarea><br>
-                                    <div class="inline-block">
-                                        <label for="text-1-color" class="">Color</label><br>
-                                            <input type="color" id="text-1-color" name="text-1-color" 
-                                            class="mr-3">
-                                    </div>
-                                    <div class="inline-block">
-                                        <label for="text-1-stroke-color" class="">Outline</label><br>
-                                            <input type="color" id="text-1-stroke-color" 
-                                            name="text-1-stroke-color" value="#FFFFFF">
-                                            <input type="checkbox" id="text-1-outline" checked>
-                                    </div>
-                                    <br>
-                                    <label for="text1-margin">Top Margin</label>
-                                    <br>
-                                        <input type="range" id="text1-margin" name="text1-margin"
-                                        min="0" max="95" value="30">
-                                    <br>
-                                    <label for="text1-align">Alignment</label>
-                                        <select id="text1-align" name="text1-align">
-                                            <option value="center">Center</option>
-                                            <option value="left">Left</option>
-                                            <option value="right">Right</option>
-                                        </select>               
-                            </fieldset>
-                        </div>
-                        <br>
-                        <p>Text Area 2</p>
-                        <div class="flex-std width-100">                  
-                            <fieldset id="text-form-2">
-                                    <textarea id="overlay-text-2" name="overlay-text-2"
-                                    placeholder="is the memeiest -_-">Is The Memeiest!!!</textarea>
-                                    <br>
-                                    <div class="inline-block">
-                                        <label for="text-2-color" class="">Color</label><br>
-                                            <input type="color" id="text-2-color" name="text-2-color" 
-                                            class="mr-3">
-                                    </div>
-                                    <div class="inline-block">
-                                        <label for="text-2-stroke-color" class="">Outline</label><br>
-                                            <input type="color" id="text-2-stroke-color" 
-                                            name="text-2-stroke-color" value="#FFFFFF">
-                                            <input type="checkbox" id="text-2-outline" checked>
-                                    </div>
-                                    <br>
-                                    <label for="text2-margin">Bottom Margin</label>
-                                    <br>
-                                        <input type="range" id="text2-margin" name="text2-margin"
-                                    min="0" max="95" value="30">
-                                    <br>
-                                    <label for="text2-align">Alignment</label>
-                                        <select id="text2-align" name="text2-align">
-                                            <option value="center">Center</option>
-                                            <option value="left">Left</option>
-                                            <option value="right">Right</option>
-                                        </select>            
-                            </fieldset>
-                        </div>
-                        <br>
-                        <p>Font</p>
-                        <div class="flex-std width-100">                  
-                            <fieldset id="font-form">
-                                    <label for="font-size">Font Size</label>
-                                    <br>
-                                        <input type="range" id="font-size" name="font-size"
-                                        min="8" max="180" value="60">
-                                    <br>
-                                    <label for="line-height">Line Height</label>
-                                    <br>
-                                        <input type="range" id="line-height" name="line-height"
-                                        min="50" max="200" value="100" class="mb-3">
-                                    <br>
-                                    <a id="set-style" href="" class="tiny">Save Text Style</a>
-                                    <br>
-                                    <br>
-                                    <label for="font-select">Font</label>
-                                    <br>
-                                    <div class="width-100">
-                                        <select id="font-select" name="font-select" class="mb-1">
-                                            <option value="Bangers">Bangers</option>
-                                            <option value="cursive">Cursive</option>
-                                            <option value="Impact">Impact</option>
-                                            <option value="monospace">Monospace</option>
-
-                                            <option value="Abril Fatface">Abril Fatface</option>
-                                            <option value="Alfa Slab One">Alfa Slab One</option>
-                                            <option value="Anton">Anton</option>
-                                            <option value="Bellota Text">Bellota Text</option>
-                                            <option value="BenchNine">BenchNine</option>
-                                            <option value="Fredoka One">Fredoka One</option>
-                                            <option value="Lato">Lato</option>
-                                            <option value="Lobster">Lobster</option>
-                                            <option value="Merriweather">Merriweather</option>
-                                            <option value="Montserrat">Montserrat</option>
-                                            <option value="Raleway">Raleway</option>
-                                            <option value="Righteous">Righteous</option>
-                                            <option value="Sigmar One">Sigmar One</option>
-                                            <option value="Pacifico">Pacifico</option>
-                                            <option value="Poppins">Poppins</option>
-                                            <option value="Roboto Mono">Roboto Mono</option>
-                                            <option value="Roboto Slab">Roboto Slab</option>
-                                            <option value="Special Elite">Special Elite</option>
-                                            <option value="Ubuntu">Ubuntu</option>
-                                            <option value="Ultra">Ultra</option>
-
-                                            <option value="Arial">Arial</option>
-                                            <option value='Franklin Gothic Medium'>Franklin Gothic Medium</option>
-                                            <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
-                                            <option value="Segoe UI">Segoe UI</option>
-                                            <option value="Tahoma">Tahoma</option>
-                                            <option value="Trebuchet MS">Trebuchet MS</option>
-                                            <option value="Verdana">Verdana</option>
- 
-                                            <option value="Cambria">Cambria</option>
-                                            <option value='Courier'>Courier</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Times">Times</option>
-
-                                            
-                                        </select>
-                                    </div>
-                                    <a id="default-font" href="" class="tiny">Set Default Font</a>         
-                            </fieldset>
-                        </div>
-                    </div>
+                <div class="text-input">
+                    <label for="topText">Top Text</label>
+                    <textarea id="topText" rows="2" placeholder="Enter top text">When the code works</textarea>
                 </div>
 
-                <div id="advanced-zone" class="display-none">
-                    <div id="overlay-filter" class="flex-std-col edit-detail-1">
-                        <div class="width-100">
-                            <p>Overlay</p>
-                                
-                                <fieldset id="filter-form">
-                                        <label for="overlay-color">Color</label>
-                                        <br>
-                                            <input type="color" id="overlay-color" name="overlay-color" class="mb-2">
-                                        <br>
-                                        <label for="overlay-opacity">Opacity</label>
-                                            <input type="range" id="overlay-opacity" name="overlay-opacity" 
-                                            min="0" max="100" value="0">                         
-                                        <br>
-                                        <label for="border">Image Border</label>
-                                            <input type="checkbox" name="border" id="border" checked>
-                                        <br>
-                                        <label for="border-color">Border Color</label>
-                                            <input type="color" id="border-color" name="border-color">                         
-                                    </fieldset>
-                            <!-- </div> -->
-                        </div>
-                    </div>
+                <div class="text-input">
+                    <label for="bottomText">Bottom Text</label>
+                    <textarea id="bottomText" rows="2" placeholder="Enter bottom text">But you don't know why</textarea>
+                </div>
 
-                    <div id="crop-img" class="flex-std-col edit-detail-1">
-                        <div class="width-100">
-                            <p>Crop</p>
-                                
-                                <fieldset id="crop-form">
-                                        <label for="crop-top">Top </label>
-                                        <br>
-                                            <input type="range" id="crop-top" name="crop-top" min="0" 
-                                            max="80" value="0">
-                                        <br>
-                                        <label for="crop-bottom">Bottom</label>
-                                        <br>
-                                            <input type="range" id="crop-bottom" name="crop-bottom" min="0" 
-                                            max="80" value="0">
-                                        <br>
-                                        <label for="crop-left">Left </label>
-                                        <br>
-                                            <input type="range" id="crop-left" name="crop-left" min="0" 
-                                            max="80" value="0">
-                                        <br>
-                                        <label for="crop-right">Right</label>
-                                        <br>
-                                            <input type="range" id="crop-right" name="crop-right" min="0" 
-                                            max="80" value="0"> 
-                                                                
-                                </fieldset>
-                
-                            <a href="#" id="reset-crop" class="tiny">Reset</a>
-                        </div>
-                    </div>
-                    
-                    <div id="scale-img" class="flex-std-col edit-detail-1">
-                        <div class="width-100">
-                            <p>Scale</p>
-                                
-                                <fieldset id="scale-form">
-                                        <label class="mr-3-1">Scale X</label><br>
-                                            <input type="range" id="scale-x" name="scale-x" min="1" 
-                                            max="200" value="100">
+                <div class="text-input">
+                    <label for="fontSize">Font Size</label>
+                    <input type="range" id="fontSize" min="20" max="100" value="40">
+                </div>
 
-                                        <label class="mr-3">Scale Y</label><br>
-                                            <input type="range" id="scale-y" name="scale-y" min="1" 
-                                            max="200" value="100">                         
-                                </fieldset>
-                
-                            <a href="#" id="reset-scale" class="tiny">Reset</a>
-                        </div>    
-                    </div>
+                <div class="text-input">
+                    <label>Text Color</label>
+                    <input type="color" id="textColor" value="#FFFFFF">
+                </div>
 
-                    <div class="flex-std-col edit-detail-1">
-                        <div class="width-100">
-                            <p>Output Scale</p>
-
-                            <fieldset id="output-scale-form">                                                                  
-                                <table class="width-100">
-                                    <thead>
-                                        <tr>
-                                            <th>Current Size</th>
-                                            <th> Scale </th>
-                                            <th>Output Size</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-black">
-                                        <tr>
-                                            <td>
-                                                <div id="current-size" class="small-info-box"></div>
-                                            </td>
-                                            <td>
-                                                <input type="number" id="output-scale" name="output-scale" 
-                                                min=".1" max="3" step=".01" value="1">
-                                            </td>
-                                            <td>
-                                                <div id="output-size" class="small-info-box"></div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>         
-            </form>
-
-            <a id="advanced-vis-control" class="stroke-white text-white">Show Advanced</a>
-
-            <div id="save-btn" class="flex-std-col">
-                <button>Save Meme</button>
+                <button onclick="generateJoke()">Generate AI Joke</button>
+                <button onclick="downloadMeme()">Download Meme</button>
             </div>
 
-
-        </section>
-
-        <section id="meme-zone" class="flex-std">
-            <div id="canvas-wrapper" class="pos-relative">
-                <canvas>Requires canvas functionality in browser.</canvas>
-            </div>       
-        </section>
-
-    </main>
-
-    <section class="gallery display-none">
-        <h1>Gallery</h1>
-        <div class="gallery-main flex-std-col"></div>
-    </section>
-
-    <div id="background"></div>
-
-    <div id="font-hack" class="hidden">
-        <div class="abrilFF">work</div>
-        <div class="Alfa">work</div>
-        <div class="Anton">work</div>
-        <div class="Bellota">work</div>
-        <div class="Fredoka">work</div>
-        <div class="Lato">work</div>
-        <div class="Lobster">work</div>
-        <div class="Merriweather">work</div>
-        <div class="Montserrat">work</div>
-        <div class="Raleway">work</div>
-        <div class="Righteous">work</div>
-        <div class="Sigmar">work</div>
-        <div class="Pacifico">work</div>
-        <div class="Poppins">work</div>
-        <div class="RobotoM">work</div>
-        <div class="RobotoS">work</div>
-        <div class="Elite">work</div>
-        <div class="Ubuntu">work</div>
-        <div class="Ultra">work</div>
+            <div class="canvas-container">
+                <canvas id="memeCanvas">Your browser doesn't support canvas.</canvas>
+            </div>
+        </main>
     </div>
+
+    <script>
+        const canvas = document.getElementById('memeCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentImage = null;
+
+        const defaultImage = new Image();
+        defaultImage.src = 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&q=80';
+        defaultImage.onload = function() {
+            currentImage = defaultImage;
+            drawMeme();
+        };
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        currentImage = img;
+                        drawMeme();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function drawMeme() {
+            if (!currentImage) return;
+
+            canvas.width = currentImage.width;
+            canvas.height = currentImage.height;
+
+            ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+
+            const topText = document.getElementById('topText').value;
+            const bottomText = document.getElementById('bottomText').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const textColor = document.getElementById('textColor').value;
+
+            ctx.fillStyle = textColor;
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = fontSize / 15;
+            ctx.font = `bold ${fontSize}px Impact`;
+            ctx.textAlign = 'center';
+
+            ctx.textBaseline = 'top';
+            drawText(topText, canvas.width / 2, fontSize / 2);
+
+            ctx.textBaseline = 'bottom';
+            drawText(bottomText, canvas.width / 2, canvas.height - fontSize / 2);
+
+            function drawText(text, x, y) {
+                const words = text.split(' ');
+                let line = '';
+                const lineHeight = fontSize * 1.2;
+
+                for (let i = 0; i < words.length; i++) {
+                    const testLine = line + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    if (testWidth > canvas.width - 40 && i > 0) {
+                        ctx.strokeText(line.trim(), x, y);
+                        ctx.fillText(line.trim(), x, y);
+                        line = words[i] + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.strokeText(line.trim(), x, y);
+                ctx.fillText(line.trim(), x, y);
+            }
+        }
+
+        function downloadMeme() {
+            const link = document.createElement('a');
+            link.download = 'meme.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        async function generateJoke() {
+            try {
+                const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+                const joke = await response.json();
+                const topText = joke.setup;
+                const bottomText = joke.punchline;
+
+                document.getElementById('topText').value = topText;
+                document.getElementById('bottomText').value = bottomText;
+                drawMeme();
+            } catch (error) {
+                console.error('Error fetching joke:', error);
+            }
+        }
+
+        document.getElementById('topText').addEventListener('input', drawMeme);
+        document.getElementById('bottomText').addEventListener('input', drawMeme);
+        document.getElementById('fontSize').addEventListener('input', drawMeme);
+        document.getElementById('textColor').addEventListener('input', drawMeme);
+    </script>
 </body>
 </html>
